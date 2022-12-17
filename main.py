@@ -1,6 +1,6 @@
 from email.message import EmailMessage
 from creds import password
-import ssl, smtplib, requests
+import ssl, smtplib, requests, schedule, time
 from bs4 import BeautifulSoup
 url='https://www.apaoltenia.ro/index.php/category/anunturi/'
 import datetime
@@ -37,13 +37,21 @@ def verifica(link):
     message = page.text.strip()
     for x in source:
         try:
-            if date in message and "Romanești" in message:
+            if date in message or "Romanești" in message:
                 print ("Sent a message")
                 smail(message, link, x)
         except Exception as e:
             continue
-response = requests.get(url)
-soup = BeautifulSoup(response.text, 'html.parser')
-links = [list.find('a', href=True)['href'] for list in soup.find_all('h2', class_="entry-title")]
-for x in links:
-    verifica(x)
+def check():
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    links = [list.find('a', href=True)['href'] for list in soup.find_all('h2', class_="entry-title")]
+    for x in links:
+        verifica(x)
+
+
+schedule.every().day.at("09:00").do(check)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1380)
