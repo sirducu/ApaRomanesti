@@ -1,4 +1,5 @@
 from email.message import EmailMessage
+from creds import password
 import ssl, smtplib, requests
 from bs4 import BeautifulSoup
 url='https://www.apaoltenia.ro/index.php/category/anunturi/'
@@ -8,14 +9,13 @@ date = now.strftime("%d.%m.%Y")
 
 def smail(msg, link, titlu):
     sender = 'pythonradu1@gmail.com'
-    password = 'eqnaknawmuvmqqjr'
     receiver = 'florianmradu@gmail.com'
-    subject = 'S.C. Compania de Apă Oltenia S.A'
+    subject = 'Compania de Apă Oltenia'
     body = f'''
     S.C. Compania de Apă Oltenia S.A.: {titlu.text.strip()}
 
-    Link:  {link}
-
+    Link: {link}
+    Mesaj:
     {msg}
     '''
     em = EmailMessage()
