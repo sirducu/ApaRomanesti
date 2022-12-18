@@ -48,10 +48,5 @@ def check():
     links = [list.find('a', href=True)['href'] for list in soup.find_all('h2', class_="entry-title")]
     for x in links:
         verifica(x)
-
-
-schedule.every().day.at("09:00").do(check)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1380)
+        
+check()
