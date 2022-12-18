@@ -37,7 +37,7 @@ def verifica(link):
     message = page.text.strip()
     for x in source:
         try:
-            if date in message or "Romanești" in message:
+            if date in message and "Romanești" in message:
                 print ("Sent a message")
                 smail(message, link, x)
         except Exception as e:
